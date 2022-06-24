@@ -1,37 +1,42 @@
 import NextAuth from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
-import FacebookProvider from "next-auth/providers/facebook"
 import GithubProvider from "next-auth/providers/github"
-import TwitterProvider from "next-auth/providers/twitter"
-import Auth0Provider from "next-auth/providers/auth0"
-// import AppleProvider from "next-auth/providers/apple"
-// import EmailProvider from "next-auth/providers/email"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { PrismaClient } from "@prisma/client"
+import bcrypt from "bcrypt"
 
-// For more information on each option (and a full list of options) go to
-// https://next-auth.js.org/configuration/options
+const prisma = new PrismaClient()
+
 export default NextAuth({
-  // https://next-auth.js.org/configuration/providers/oauth
+  adapter: PrismaAdapter(prisma),
   providers: [
-    /* EmailProvider({
-         server: process.env.EMAIL_SERVER,
-         from: process.env.EMAIL_FROM,
-       }),
-    // Temporarily removing the Apple provider from the demo site as the
-    // callback URL for it needs updating due to Vercel changing domains
-      
-    Providers.Apple({
-      clientId: process.env.APPLE_ID,
-      clientSecret: {
-        appleId: process.env.APPLE_ID,
-        teamId: process.env.APPLE_TEAM_ID,
-        privateKey: process.env.APPLE_PRIVATE_KEY,
-        keyId: process.env.APPLE_KEY_ID,
+    CredentialsProvider({
+      name: "Sign in with...",
+      credentials: {
+        username: {
+          label: "Username",
+          type: "text",
+          placeholder: "johnny@appleseed.com",
+        },
+        password: { label: "Password", type: "password" },
       },
-    }),
-    */
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET,
+      async authorize(credentials, req) {
+        const { email, password } = req.body
+
+        const user = await prisma.user.findUnique({
+          where: { email },
+        })
+        if (user && bcrypt.compareSync(password, user.password)) {
+          // Any object returned will be saved in `user` property of the JWT
+          return user
+        } else {
+          // If you return null then an error will be displayed advising the user to check their details.
+          return null
+
+          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        }
+      },
     }),
     GithubProvider({
       clientId: process.env.GITHUB_ID,
@@ -41,22 +46,19 @@ export default NextAuth({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
-    TwitterProvider({
-      clientId: process.env.TWITTER_ID,
-      clientSecret: process.env.TWITTER_SECRET,
-    }),
-    Auth0Provider({
-      clientId: process.env.AUTH0_ID,
-      clientSecret: process.env.AUTH0_SECRET,
-      issuer: process.env.AUTH0_ISSUER,
-    }),
   ],
-  theme: {
-    colorScheme: "light",
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
   },
   callbacks: {
-    async jwt({ token }) {
-      token.userRole = "admin"
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role
+        token.name = user.firstName + " " + user.lastName
+      }
+      console.log(token)
       return token
     },
   },

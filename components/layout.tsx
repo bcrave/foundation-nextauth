@@ -1,17 +1,19 @@
 import Header from "./header"
 import Footer from "./footer"
-import type { ReactChildren } from "react"
+import { useSession } from "next-auth/react"
 
 interface Props {
   children: React.ReactNode
 }
 
 export default function Layout({ children }: Props) {
+  const { data: session } = useSession()
+
   return (
     <>
-      <Header />
+      {session && <Header />}
       <main>{children}</main>
-      <Footer />
+      {session && <Footer />}
     </>
   )
 }

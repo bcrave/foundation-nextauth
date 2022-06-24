@@ -1,9 +1,12 @@
 import Link from "next/link"
 import styles from "./footer.module.css"
 import packageJSON from "../package.json"
+import { useSession } from "next-auth/react"
 
 export default function Footer() {
-  return (
+  const { data: session } = useSession()
+
+  return session ? (
     <footer className={styles.footer}>
       <hr />
       <ul className={styles.navItems}>
@@ -26,5 +29,5 @@ export default function Footer() {
         </li>
       </ul>
     </footer>
-  )
+  ) : null
 }
