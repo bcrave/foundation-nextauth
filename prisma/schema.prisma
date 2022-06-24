@@ -1,52 +1,10 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model AuthToken {
-  authToken  String   @unique
-  expiration DateTime
-}
-
-enum Role {
-  USER
-  ADMIN
-  SUPERADMIN
-}
-
-model Organization {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  address     String
-  city        String
-  state       String
-  zipCode     String
-  phoneNumber String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  isActive    Boolean
-  users       User[]
-}
-
-model User {
-  id             String       @id @default(cuid())
-  firstName      String
-  lastName       String
-  email          String       @unique
-  password       String
-  phoneNumber    String
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  role           Role         @default(USER)
-  organizationId String
-  isActive       Boolean      @default(true)
-  account        Account[]
-  session        Session[]
-  organization   Organization @relation(fields: [organizationId], references: [id])
+generator client {
+  provider = "prisma-client-js"
 }
 
 model Account {
@@ -74,6 +32,16 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
 }
 
 model VerificationToken {
