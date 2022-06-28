@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Account {
@@ -38,6 +38,8 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
+  password      String
+  role          String    @default("super-admin")
   emailVerified DateTime?
   image         String?
   accounts      Account[]

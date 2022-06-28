@@ -1,6 +1,5 @@
 import { useReducer, useState } from "react"
 import { useRouter } from "next/router"
-import { Role } from "@prisma/client"
 import { initialState, reducer } from "../../lib/reducers/addUser"
 import { auth } from "../../lib/mutations"
 
@@ -32,11 +31,11 @@ const AddUserForm = ({ mode }) => {
     confirmPassword,
   } = state
 
-  const getRoleEnum = (role) => {
-    if (role === "User") return Role.USER
-    if (role === "Admin") return Role.ADMIN
-    return Role.SUPERADMIN
-  }
+  // const getRoleEnum = (role) => {
+  //   if (role === "User") return Role.USER
+  //   if (role === "Admin") return Role.ADMIN
+  //   return Role.SUPERADMIN
+  // }
 
   const handleInputChange = (e) => {
     dispatch({
@@ -49,7 +48,7 @@ const AddUserForm = ({ mode }) => {
     e.preventDefault()
     setIsLoading(true)
     const user = await auth(mode, {
-      role: getRoleEnum(role.input),
+      // role: getRoleEnum(role.input),
       organization: organization.input,
       firstName: firstName.input,
       lastName: lastName.input,

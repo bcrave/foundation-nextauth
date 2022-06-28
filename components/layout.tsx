@@ -1,5 +1,6 @@
 import Header from "./header"
 import Footer from "./footer"
+import { Box } from "@chakra-ui/react"
 import { useSession } from "next-auth/react"
 
 interface Props {
@@ -11,7 +12,7 @@ export default function Layout({ children }: Props) {
 
   return (
     <>
-      {session && <Header />}
+      {session && <Header session={session} />}
       <main>{children}</main>
       {session && <Footer />}
     </>

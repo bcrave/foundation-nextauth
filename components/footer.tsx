@@ -1,5 +1,4 @@
 import Link from "next/link"
-import styles from "./footer.module.css"
 import packageJSON from "../package.json"
 import { useSession } from "next-auth/react"
 
@@ -7,24 +6,24 @@ export default function Footer() {
   const { data: session } = useSession()
 
   return session ? (
-    <footer className={styles.footer}>
+    <footer>
       <hr />
-      <ul className={styles.navItems}>
-        <li className={styles.navItem}>
+      <ul>
+        <li>
           <a href="https://next-auth.js.org">Documentation</a>
         </li>
-        <li className={styles.navItem}>
+        <li>
           <a href="https://www.npmjs.com/package/next-auth">NPM</a>
         </li>
-        <li className={styles.navItem}>
+        <li>
           <a href="https://github.com/nextauthjs/next-auth-example">GitHub</a>
         </li>
-        <li className={styles.navItem}>
+        <li>
           <Link href="/policy">
             <a>Policy</a>
           </Link>
         </li>
-        <li className={styles.navItem}>
+        <li>
           <em>next-auth@{packageJSON.dependencies["next-auth"]}</em>
         </li>
       </ul>

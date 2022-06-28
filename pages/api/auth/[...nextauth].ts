@@ -15,19 +15,28 @@ export default NextAuth({
       name: "Sign in with...",
       credentials: {
         username: {
-          label: "Username",
-          type: "text",
+          label: "Email",
+          type: "email",
           placeholder: "johnny@appleseed.com",
         },
-        password: { label: "Password", type: "password" },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "********",
+        },
+        confirmPassword: {
+          label: "Password",
+          type: "password",
+          placeholder: "********",
+        },
       },
       async authorize(credentials, req) {
-        const { email, password } = req.body
+        const { email } = req.body
 
         const user = await prisma.user.findUnique({
           where: { email },
         })
-        if (user && bcrypt.compareSync(password, user.password)) {
+        if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user
         } else {
@@ -53,13 +62,27 @@ export default NextAuth({
     updateAge: 24 * 60 * 60,
   },
   callbacks: {
+    async signIn({ user, credentials }) {
+      const { password } = credentials
+
+      if (bcrypt.compareSync(password, user.password)) {
+        return true
+      } else {
+        // Return false to display a default error message
+        return false
+        // Or you can return a URL to redirect to:
+        // return '/unauthorized'
+      }
+    },
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role
-        token.name = user.firstName + " " + user.lastName
       }
-      console.log(token)
       return token
+    },
+    async session({ session, token }) {
+      session.role = token.role
+      return session
     },
   },
 })

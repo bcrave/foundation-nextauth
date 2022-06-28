@@ -19,7 +19,7 @@ import {
 } from "next-auth/react"
 import { BuiltInProviderType } from "next-auth/providers"
 
-const Signin = () => {
+const SigninForm = () => {
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
@@ -94,4 +94,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default SigninForm

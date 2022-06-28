@@ -14,30 +14,30 @@ const addUser = async (req, res) => {
   } = req.body
 
   let user
-  const org = await prisma.organization.findUnique({
-    where: {
-      name: organization,
-    },
-  })
+  // const org = await prisma.organization.findUnique({
+  //   where: {
+  //     name: organization,
+  //   },
+  // })
 
-  try {
-    user = await prisma.user.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        password: bcrypt.hashSync(password, salt),
-        phoneNumber,
-        isActive: true,
-        organizationId: org.id,
-        role,
-      },
-    })
-  } catch (err) {
-    res.status(401)
-    res.json({ error: "User already exists" })
-    return
-  }
+  // try {
+  //   user = await prisma.user.create({
+  //     data: {
+  //       firstName,
+  //       lastName,
+  //       email,
+  //       password: bcrypt.hashSync(password, salt),
+  //       phoneNumber,
+  //       isActive: true,
+  //       organizationId: org.id,
+  //       role,
+  //     },
+  //   })
+  // } catch (err) {
+  //   res.status(401)
+  //   res.json({ error: "User already exists" })
+  //   return
+  // }
 
   // const token = jwt.sign(
   //   {

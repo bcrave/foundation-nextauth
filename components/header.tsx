@@ -1,110 +1,95 @@
-import Link from "next/link"
-import { signIn, signOut, useSession } from "next-auth/react"
-import styles from "./header.module.css"
+import NextLink from "next/link"
+import { signIn, signOut } from "next-auth/react"
+import {
+  Box,
+  Flex,
+  Link,
+  InputGroup,
+  Input,
+  InputRightElement,
+  Image,
+} from "@chakra-ui/react"
+import { SearchIcon } from "@chakra-ui/icons"
+import Sidebar from "../components/sidebar"
+import DropdownMenu from "../components/dropdownMenu"
 
-// The approach used in this component shows how to build a sign in and sign out
-// component that works on pages which support both client and server side
-// rendering, and avoids any flash incorrect content on initial page load.
-export default function Header() {
-  const { data: session, status } = useSession()
-  const loading = status === "loading"
+const links = [
+  { name: "Home", route: "/" },
+  { name: "Profile", route: "/me/profile" },
+  { name: "Account", route: "/me" },
+]
+const adminLinks = [
+  { name: "Users", route: "/users" },
+  { name: "Organizations", route: "/organizations" },
+]
 
+const Header = ({ session }) => {
   return (
-    <header>
-      <noscript>
-        <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
-      </noscript>
-      <div className={styles.signedInStatus}>
-        <p
-          className={`nojs-show ${
-            !session && loading ? styles.loading : styles.loaded
-          }`}
-        >
-          {!session && (
-            <>
-              <span className={styles.notSignedInText}>
-                You are not signed in
-              </span>
-              <a
-                href={`/api/auth/signin`}
-                className={styles.buttonPrimary}
-                onClick={(e) => {
-                  e.preventDefault()
-                  signIn()
-                }}
-              >
-                Sign in
-              </a>
-            </>
-          )}
-          {session?.user && (
-            <>
-              {session.user.image && (
-                <span
-                  style={{ backgroundImage: `url('${session.user.image}')` }}
-                  className={styles.avatar}
-                />
+    <Box
+      backgroundColor="white"
+      position="fixed"
+      top="0"
+      left="0"
+      right="0"
+      zIndex="1"
+      height="100px"
+      width="100%"
+      boxShadow="base"
+      p="6"
+      bg="white"
+    >
+      <Box
+        width="100%"
+        display={["flex", "flex", "none"]}
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <NextLink href="/">
+          <Image src="logo.svg" alt="foundation" />
+        </NextLink>
+        <Sidebar session={session} links={links} adminLinks={adminLinks} />
+      </Box>
+      <Box display={["none", "none", "block"]} height="100%">
+        <Box width="100%" height="100%">
+          <Flex justify="space-between" height="100%" width="90%" margin="auto">
+            <Flex width="45%" justify="space-between" align="center">
+              <NextLink href="/" passHref>
+                <Link>
+                  <Flex align="center">
+                    <Image src="logo.svg" alt="foundation" />
+                  </Flex>
+                </Link>
+              </NextLink>
+              {session.role !== "super-admin" ? (
+                <Box>
+                  <NextLink href="/users/all" passHref>
+                    <Link fontWeight="bold">Users</Link>
+                  </NextLink>
+                </Box>
+              ) : (
+                adminLinks.map((link) => (
+                  <Box key={link.name}>
+                    <NextLink href={link.route} passHref>
+                      <Link fontWeight="bold">{link.name}</Link>
+                    </NextLink>
+                  </Box>
+                ))
               )}
-              <span className={styles.signedInText}>
-                <small>Signed in as</small>
-                <br />
-                <strong>{session.user.email ?? session.user.name}</strong>
-              </span>
-              <a
-                href={`/api/auth/signout`}
-                className={styles.button}
-                onClick={(e) => {
-                  e.preventDefault()
-                  signOut()
-                }}
-              >
-                Sign out
-              </a>
-            </>
-          )}
-        </p>
-      </div>
-      {session && (
-        <nav>
-          <ul className={styles.navItems}>
-            <li className={styles.navItem}>
-              <Link href="/">
-                <a>Home</a>
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/client">
-                <a>Client</a>
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/server">
-                <a>Server</a>
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/protected">
-                <a>Protected</a>
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/api-example">
-                <a>API</a>
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/admin">
-                <a>Admin</a>
-              </Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/me">
-                <a>Me</a>
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      )}
-    </header>
+            </Flex>
+            <Flex width="45%" justify="space-between" align="center">
+              <InputGroup width="60%">
+                <Input placeholder="Search" />
+                <InputRightElement>
+                  <SearchIcon />
+                </InputRightElement>
+              </InputGroup>
+              <DropdownMenu links={links} />
+            </Flex>
+          </Flex>
+        </Box>
+      </Box>
+    </Box>
   )
 }
+
+export default Header

@@ -1,5 +1,3 @@
-import { Role } from "@prisma/client"
-
 export const users = [
   {
     firstName: "Ravid",
