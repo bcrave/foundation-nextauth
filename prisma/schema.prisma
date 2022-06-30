@@ -35,15 +35,46 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?        @unique
   password      String
-  role          String    @default("super-admin")
+  phone         String?
+  isActive      Boolean        @default(true)
+  role          Role           @default(superadmin)
   emailVerified DateTime?
   image         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  organizations Organization[]
   accounts      Account[]
   sessions      Session[]
+}
+
+model Organization {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String?    @unique
+  address   String
+  phone     String
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  owner     User       @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  employees Employee[]
+}
+
+model Employee {
+  id           String       @id @default(cuid())
+  name         String
+  email        String
+  phone        String
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  organization Organization @relation(fields: [orgId], references: [id])
+  orgId        Int
 }
 
 model VerificationToken {
@@ -52,4 +83,11 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum Role {
+  user
+  admin
+  superadmin
+  superuser
 }

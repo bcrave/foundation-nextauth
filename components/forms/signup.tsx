@@ -74,8 +74,8 @@ const SignupForm = () => {
       })
       await signIn("credentials", {
         redirect: false,
-        email: user.email,
-        password: user.password,
+        email: email.value,
+        password: password.value,
       })
     } catch {
       setError("Failed to create account")
