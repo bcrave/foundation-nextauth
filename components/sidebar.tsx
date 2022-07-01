@@ -48,8 +48,8 @@ const Sidebar = ({ session, links, adminLinks }) => {
             <nav>
               <Grid templateColumns="repeat(2, 1fr)" gap={4}>
                 {links.map((link) => (
-                  <GridItem colSpan={1}>
-                    <NextLink href={link.route} passHref key={link.name}>
+                  <GridItem colSpan={1} key={link.name}>
+                    <NextLink href={link.route} passHref>
                       <Button
                         onClick={onClose}
                         paddingY={4}

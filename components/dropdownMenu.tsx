@@ -12,19 +12,10 @@ const DropdownMenu = ({ links }) => {
       </MenuButton>
       <MenuList>
         {links.map((link) => (
-          <NextLink href={link.route}>
+          <NextLink href={link.route} key={link.name}>
             <MenuItem>{link.name}</MenuItem>
           </NextLink>
         ))}
-        {/* <NextLink href="/me/profile">
-          <MenuItem>My Profile</MenuItem>
-        </NextLink>
-        <NextLink href="/me">
-          <MenuItem>My Account</MenuItem>
-        </NextLink>
-        <NextLink href="/signin">
-          <MenuItem>Sign Out</MenuItem>
-        </NextLink> */}
       </MenuList>
     </Menu>
   )

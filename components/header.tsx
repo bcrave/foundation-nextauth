@@ -26,13 +26,11 @@ const adminLinks = [
 const Header = ({ session }) => {
   return (
     <Box
-      backgroundColor="white"
       position="fixed"
       top="0"
       left="0"
       right="0"
       zIndex="1"
-      height="100px"
       width="100%"
       boxShadow="base"
       p="6"

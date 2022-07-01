@@ -12,10 +12,12 @@ const run = async () => {
         create: {
           name: user.name,
           email: user.email,
-          password: user.password,
+          password: bcrypt.hashSync(user.password, salt),
           isActive: user.isActive,
         },
-        update: {},
+        update: {
+          password: bcrypt.hashSync(user.password, salt),
+        },
         where: { email: user.email },
       })
     })

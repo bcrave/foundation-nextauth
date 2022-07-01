@@ -65,7 +65,7 @@ export default NextAuth({
     async signIn({ user, credentials }) {
       const { password } = credentials
 
-      if (bcrypt.compareSync(password, user.password)) {
+      if (bcrypt.compareSync(password as string, user.password as string)) {
         return true
       } else {
         // Return false to display a default error message
@@ -77,6 +77,7 @@ export default NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role
+        token.id = user.id
       }
       return token
     },
