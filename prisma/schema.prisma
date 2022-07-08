@@ -70,6 +70,7 @@ model Employee {
   name         String
   email        String
   phone        String
+  role         Role         @default(user)
   isActive     Boolean      @default(true)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt

@@ -15,9 +15,7 @@ const run = async () => {
           password: bcrypt.hashSync(user.password, salt),
           isActive: user.isActive,
         },
-        update: {
-          password: bcrypt.hashSync(user.password, salt),
-        },
+        update: {},
         where: { email: user.email },
       })
     })

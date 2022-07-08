@@ -1,5 +1,4 @@
 import NextLink from "next/link"
-import { signIn, signOut } from "next-auth/react"
 import {
   Box,
   Flex,
@@ -10,7 +9,7 @@ import {
   Image,
 } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
-import Sidebar from "../components/sidebar"
+import Sidebar from "./drawers/sidebar"
 import DropdownMenu from "../components/dropdownMenu"
 
 const links = [
@@ -43,7 +42,7 @@ const Header = ({ session }) => {
         alignItems="center"
       >
         <NextLink href="/">
-          <Image src="logo.svg" alt="foundation" />
+          <Image src="/logo.svg" alt="foundation" />
         </NextLink>
         <Sidebar session={session} links={links} adminLinks={adminLinks} />
       </Box>
@@ -58,7 +57,7 @@ const Header = ({ session }) => {
                   </Flex>
                 </Link>
               </NextLink>
-              {session.role !== "super-admin" ? (
+              {session.role !== "superadmin" ? (
                 <Box>
                   <NextLink href="/users/all" passHref>
                     <Link fontWeight="bold">Users</Link>

@@ -10,3 +10,13 @@ export const useMe = () => {
     isError: error,
   }
 }
+
+export const useOrgsList = () => {
+  const { data, error } = useSWR("/organizations/all", fetcher)
+
+  return {
+    organizations: data || [],
+    isLoading: !data && !error,
+    isError: error,
+  }
+}

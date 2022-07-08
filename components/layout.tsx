@@ -13,7 +13,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       {session && <Header session={session} />}
-      <main>{children}</main>
+      <Box>{children}</Box>
       {session && <Footer />}
     </>
   )

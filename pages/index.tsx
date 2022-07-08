@@ -2,7 +2,7 @@ import NextLink from "next/link"
 import { useSession } from "next-auth/react"
 import { Flex, Text, Image } from "@chakra-ui/react"
 import { Box } from "@chakra-ui/layout"
-import SigninForm from "../components/signin"
+import SigninForm from "../components/forms/signin"
 import HomePage from "../components/home"
 
 export default function IndexPage() {

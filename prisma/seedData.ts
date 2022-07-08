@@ -8,7 +8,20 @@ export const users = [
     phone: "4028874837",
     isActive: true,
     role: Role.superuser,
-    organizations: [],
+    organizations: [
+      {
+        name: "Streich-Raynor",
+        email: "dchiverton0@nydailynews.com",
+        address: "24920 Basil Place",
+        phone: "1719907434",
+      },
+      {
+        name: "Smith, Nolan and Lemke",
+        email: "ecorsham1@cdbaby.com",
+        address: "3138 Village Green Park",
+        phone: "5038791167",
+      },
+    ],
   },
   {
     name: "Wilmar Worsnip",
@@ -17,7 +30,20 @@ export const users = [
     phone: "3847565954",
     isActive: false,
     role: Role.superuser,
-    organizations: [],
+    organizations: [
+      {
+        name: "Kiehn Inc",
+        email: "bwyper2@weibo.com",
+        address: "54447 Thierer Terrace",
+        phone: "3376802889",
+      },
+      {
+        name: "Jerde, Zulauf and Shanahan",
+        email: "sotson3@studiopress.com",
+        address: "4 Del Sol Parkway",
+        phone: "3245917158",
+      },
+    ],
   },
   {
     name: "Pete Ingrem",
@@ -26,7 +52,20 @@ export const users = [
     phone: "7336445617",
     isActive: true,
     role: Role.superuser,
-    organizations: [],
+    organizations: [
+      {
+        name: "Mayert LLC",
+        email: "jproom4@addtoany.com",
+        address: "661 Londonderry Plaza",
+        phone: "8142371788",
+      },
+      {
+        name: "Satterfield-Turcotte",
+        email: "ldobbson5@wikimedia.org",
+        address: "42474 Oakridge Crossing",
+        phone: "3994531544",
+      },
+    ],
   },
   {
     name: "Reeva Tonkes",
@@ -35,7 +74,20 @@ export const users = [
     phone: "8421873546",
     isActive: true,
     role: Role.superuser,
-    organizations: [],
+    organizations: [
+      {
+        name: "Jakubowski LLC",
+        email: "vlabastida6@goo.ne.jp",
+        address: "6 Barnett Hill",
+        phone: "1338104501",
+      },
+      {
+        name: "Legros, Ryan and Graham",
+        email: "ddunklee7@mozilla.com",
+        address: "63 Autumn Leaf Parkway",
+        phone: "1308177504",
+      },
+    ],
   },
   {
     name: "Katerina Letchford",
@@ -44,7 +96,20 @@ export const users = [
     phone: "2776643420",
     isActive: false,
     role: Role.superuser,
-    organizations: [],
+    organizations: [
+      {
+        name: "Schinner and Sons",
+        email: "lsmales8@cdc.gov",
+        address: "6043 Old Gate Terrace",
+        phone: "3692319277",
+      },
+      {
+        name: "Baumbach-Stoltenberg",
+        email: "abodell9@yellowpages.com",
+        address: "424 Sloan Park",
+        phone: "5314355810",
+      },
+    ],
   },
 ]
 

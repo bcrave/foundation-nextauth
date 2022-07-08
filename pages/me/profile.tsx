@@ -1,6 +1,15 @@
 import { formatPhoneNumber } from "../../lib/formatters"
-import { Box, Flex, Text, Image } from "@chakra-ui/react"
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  SkeletonCircle,
+  SkeletonText,
+} from "@chakra-ui/react"
 import { useMe } from "../../lib/hooks"
+import EditProfileModal from "../../components/modals/editProfile"
+import CustomDrawer from "../../components/drawers/customDrawer"
 
 const ProfilePage = () => {
   const { user, isLoading } = useMe()
@@ -43,12 +52,12 @@ const ProfilePage = () => {
                 border={{ lg: "4px solid lightgray" }}
               />
             </Box>
-
             <Box paddingY="70px" paddingX="40px" position="relative">
               <Box position="absolute" right="20px" top="10px">
-                {/* <EditProfileModal mode="updateProfile" /> */}
+                <EditProfileModal mode="updateProfile" />
+                <CustomDrawer mode="editProfile" />
               </Box>
-              <Flex width="100%" direction="column" justify="center">
+              <Flex width="100%" direction="column" justify="center" mt="30px">
                 <Text as="h3" fontSize="3xl" textAlign="center">
                   {user.name}
                 </Text>
@@ -60,6 +69,12 @@ const ProfilePage = () => {
                 </Text>
               </Flex>
             </Box>
+          </Box>
+        )}
+        {isLoading && (
+          <Box paddingX="20" paddingY="16" width="100%">
+            <SkeletonCircle size="20" marginBottom="50px" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" />
           </Box>
         )}
       </Box>
